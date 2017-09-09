@@ -1,0 +1,181 @@
+<!doctype html>
+<html>
+<head>
+  <title>Custom Jwplayer</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!-- Optional theme -->
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+  <style type="text/css">
+  #easy
+  {
+    margin-top: 10px;
+  }
+  .row
+  {
+    margin-top: 50px;
+  }
+.btn-outline-primary
+{
+width: 140px;
+}
+.btn-outline-default
+{
+  width: 180px;
+}
+</style>
+
+</head>
+<body>
+<div class="container-fluid">
+<div class="row">
+<div class="col-lg-6" >
+<div id="easy">
+ 
+    Loading the player...
+</div>
+</div>
+</div>
+  <script type="text/javascript" src="jwplayer.js"></script>
+  <script type="text/javascript">
+
+    jwplayer.key = "iZaBV7cW7mBl61yIWCTK3IUeA1jqZjIUo28r0w==";
+
+    var playerInstance = jwplayer("easy");
+    playerInstance.setup({
+
+
+    "hlshtml": true,
+    "seek"   : 20,
+    "image" : "src/image/preview.png",
+    "volume" : 100,
+    "width"   : 700,
+    "height" : 400,
+    "mute" : true,
+    "aspectratio": '16:9',
+    "sharing" : {
+
+                "sites": [
+
+                { icon : 'src/image/face.png', src: function() { window.open('https://www.facebook.com')}},
+                { icon : 'src/image/linkedin1.png', src: function() { window.open('https://www.linkedin.com')}},
+                { icon : 'src/image/twitter.png', src: function() { window.open('https://twitter.com')}}
+              
+                   ]
+               },
+    // "logo":
+
+    //         {
+    //            "file": 'src/image/logo.png',
+    //            "margin": 15,
+    //            "position": 'bottom-left',
+    //         },
+   "sources":  
+    [
+
+        {
+            "file": "https://s3.ap-south-1.amazonaws.com/teampondy/jwplayer/1.mp4",
+            "label": "720p"
+         
+        },
+        {
+            "file": "https://s3.ap-south-1.amazonaws.com/teampondy/jwplayer/2.mp4",
+            "label": "360p"
+            
+        },
+        {
+            "file": "https://s3.ap-south-1.amazonaws.com/teampondy/jwplayer/2.mp4",
+            "label": "240p"
+           
+        }
+    ]
+
+});
+
+// adding slow motion button
+        var videoTag;
+        var currentRate = 1;
+
+        jwplayer().onReady(function() {
+            if (jwplayer().getRenderingMode() == "html5"){
+                   videoTag = document.querySelector('video');
+            if(videoTag.playbackRate) {
+                  jwplayer().addButton("src/image/time.ico","Toggle Slow Motion",
+                    toggleSlomo,"slomo");
+              }
+            }
+        });
+
+
+
+        function toggleSlomo() {
+            currentRate == 1 ? currentRate = 0.2: currentRate = 1;
+            videoTag.playbackRate = currentRate;
+            videoTag.defaultPlaybackRate = currentRate;
+              if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
+                 jwplayer().seek(jwplayer().getPosition());
+           }
+        };
+
+// adding download button
+        jwplayer().addButton(
+            "src/image/download.ico","Download Video",
+            function() {
+            window.location.href =jwplayer().getPlaylistItem()['file'];
+            },
+            "download"
+        );
+
+  </script>
+ <script type="text/javascript" src="player.js"></script>
+<div class="row">
+<div class="col-lg-2">
+
+<button type="button" class="btn btn-outline-primary" id="get-quality">Quality</button><br><br>
+<button type="button" class="btn btn-outline-primary" id="set-quality">Set Quality</button><br><br>
+<button type="button" class="btn btn-outline-primary" id="get-current-volume">Volume</button><br><br>
+<button type="button" class="btn btn-outline-primary" id="set-volume">Set Volume</button><br><br>
+<button type="button" class="btn btn-outline-primary" id="get-duration">Current Duration</button><br><br>
+<button type="button" class="btn btn-outline-primary" id="get-current-status">Status</button><br><br>
+</div>
+
+<!-- <div class="row"> -->
+<div class="col-lg-2">
+<button type="button" class="btn btn-outline-default" id="quality">------</button><br><br>
+<button type="button" class="btn btn-outline-default" id="quality1">------</button><br><br>
+<button type="button" class="btn btn-outline-default" id="vol">------</button><br><br>
+<button type="button" class="btn btn-outline-default" id="vol1">------</button><br><br>
+<button type="button" class="btn btn-outline-default" id="dur">------</button><br><br>
+<button type="button" class="btn btn-outline-default" id="sta" >------</button><br><br>
+</div>
+
+<!-- <div class="row"> -->
+<div class="col-lg-2">
+<button type="button" class="btn btn-outline-default" id="mute">------</button><br><br>
+<button type="button" class="btn btn-outline-default" id="mute1">------</button><br><br>
+<button type="button" class="btn btn-outline-default" id="mute2">------</button><br><br>
+<button type="button" class="btn btn-outline-default" id="pa">------</button><br><br>
+<button type="button" class="btn btn-outline-default" id="pl">------</button><br><br>
+<button type="button" class="btn btn-outline-default" id="st">------</button><br><br>
+</div>
+<!-- <div class="row"> -->
+<div class="col-lg-2">
+
+<button type="button" class="btn btn-outline-primary" id="get-mute-status">Mute Status</button><br><br>
+<button type="button" class="btn btn-outline-primary" id="mute-on">Mute ON</button><br><br>
+<button type="button" class="btn btn-outline-primary" id="mute-off">Mute OFF</button><br><br>
+<button type="button" class="btn btn-outline-primary" id="pause">pause</button><br><br>
+<button type="button" class="btn btn-outline-primary" id="play">Play</button><br><br>
+<button type="button" class="btn btn-outline-primary" id="stop">Stop</button><br><
+</div>
+</div>
+</div>
+</div>
+
+</body>
+</html> 
