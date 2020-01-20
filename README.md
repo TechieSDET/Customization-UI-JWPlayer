@@ -1,2 +1,2 @@
 # Jwplayer
-Working with jwplayer video properties
+Customize the uI of JWPlayer, Working with jwplayer video properties
